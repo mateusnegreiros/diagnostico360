@@ -415,8 +415,8 @@ function renderQuestion(){
   const idx=state.currentQ;
   const pct=Math.round((idx/TOTAL_Q)*100);
 
-  document.getElementById('step-label').textContent='';
-  document.getElementById('pillar-label').textContent=`${p.icon} ${p.label}`;
+  const plEl=document.getElementById('pillar-label');
+  if(plEl) plEl.textContent=`${p.icon} ${p.label}`;
   document.getElementById('progress-fill').style.width=pct+'%';
   document.getElementById('btn-next').textContent=idx===TOTAL_Q-1?'Ver Diagnóstico →':'Próxima →';
 
