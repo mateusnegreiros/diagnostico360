@@ -298,10 +298,12 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
     <div class="cta-block">
       <h3>🚀 Próximo Passo Recomendado</h3>
       <p>Com base no seu diagnóstico, recomendamos uma <strong>sessão estratégica</strong> para investigação aprofundada, definição de prioridades e construção do plano de ação personalizado para <span id="r-empresa-cta"></span>.</p>
+      <p id="email-status" style="font-size:13px;margin-bottom:16px;min-height:20px;"></p>
       <button class="btn-gold" onclick="applyCTA()">Quero aplicar para sessão estratégica</button>
-      <button class="btn-pdf" onclick="downloadPDF()" style="margin-top:14px;display:inline-flex;align-items:center;gap:8px;">
+      <button class="btn-pdf" id="btn-pdf" onclick="downloadPDF()" style="margin-top:14px;display:inline-flex;align-items:center;gap:8px;">
         <span>⬇️</span> Baixar Relatório em PDF
       </button>
+      <p id="pdf-msg" style="display:none;font-size:13px;color:var(--muted);margin-top:10px;"></p>
     </div>
 
   </div>
@@ -764,15 +766,18 @@ function buildReport(){
 }
 
 /* ══════════════════════════════════════
-   SEND EMAILS
+   SEND EMAILS — com feedback visual
 ══════════════════════════════════════ */
 async function sendEmails(){
+  const statusEl = document.getElementById('email-status');
+  if(statusEl){
+    statusEl.style.color = 'var(--muted)';
+    statusEl.textContent = '📨 Enviando seu relatório por e-mail...';
+  }
+
   const sorted = PILLARS.slice().sort((a,b)=>state.scores[a.id]-state.scores[b.id]);
   const primary   = sorted[0];
   const secondary = sorted[1];
-
-  // Build a hosted PDF link — opens the report page in a new window for download
-  const pdfLink = `Para acessar e baixar seu relatório completo em PDF, abra o diagnóstico no navegador e clique em "Baixar Relatório em PDF".`;
 
   const base = {
     cliente_nome      : state.nome,
@@ -789,27 +794,42 @@ async function sendEmails(){
     gargalo_principal : `${primary.label} (${state.scores[primary.id]}/10)`,
     gargalo_secundario: `${secondary.label} (${state.scores[secondary.id]}/10)`,
     data_diagnostico  : new Date().toLocaleDateString('pt-BR'),
-    pdf_link          : pdfLink
+    pdf_link          : 'Para baixar seu relatório em PDF, clique no botão "Baixar Relatório em PDF" na página do diagnóstico.'
   };
 
-  // E-mail para o ADMIN
+  let adminOk = false, clientOk = false;
+
+  // E-mail ADMIN
   try {
-    await emailjs.send(EJS.serviceId, EJS.tmplAdmin, {
+    await emailjs.send(EMAILJS_CFG.serviceId, EMAILJS_CFG.tmplAdmin, {
       ...base,
-      to_email      : EJS.adminEmail,
-      admin_email   : EJS.adminEmail,
+      to_email      : EMAILJS_CFG.adminEmail,
+      admin_email   : EMAILJS_CFG.adminEmail,
       cliente_email : state.email
     });
+    adminOk = true;
   } catch(e){ console.warn('EmailJS admin error:', e); }
 
-  // E-mail para o CLIENTE
+  // E-mail CLIENTE
   try {
-    await emailjs.send(EJS.serviceId, EJS.tmplClient, {
+    await emailjs.send(EMAILJS_CFG.serviceId, EMAILJS_CFG.tmplClient, {
       ...base,
       to_email      : state.email,
       cliente_email : state.email
     });
+    clientOk = true;
   } catch(e){ console.warn('EmailJS client error:', e); }
+
+  // Feedback visual
+  if(statusEl){
+    if(clientOk){
+      statusEl.style.color = 'var(--green)';
+      statusEl.textContent = `✅ Relatório enviado para ${state.email}`;
+    } else {
+      statusEl.style.color = '#f59e0b';
+      statusEl.textContent = '⚠️ Não foi possível enviar o e-mail. Use o botão abaixo para baixar o PDF.';
+    }
+  }
 }
 
 /* ══════════════════════════════════════
@@ -820,12 +840,15 @@ function applyCTA(){
 }
 
 /* ══════════════════════════════════════
-   PDF DOWNLOAD
-   Uses window.print() with a print-
-   specific stylesheet injected inline.
+   PDF DOWNLOAD — compatível com popup blocker
 ══════════════════════════════════════ */
 function downloadPDF(){
-  // Build a clean standalone print page from the report content
+  const btn = document.getElementById('btn-pdf');
+  const msg = document.getElementById('pdf-msg');
+
+  // Feedback imediato no botão
+  if(btn){ btn.disabled=true; btn.textContent='⏳ Gerando PDF...'; }
+
   const reportHTML = document.getElementById('s-report').innerHTML;
   const styles = `
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
@@ -844,17 +867,17 @@ function downloadPDF(){
     .report-block{border:1px solid #e5e7eb;border-radius:10px;padding:20px;margin-bottom:16px;}
     .bottleneck-block{background:#fff5f5;border:1px solid #fca5a5;border-radius:10px;padding:20px;margin-bottom:16px;}
     .bottleneck-block h3{color:#ef4444;font-size:14px;margin-bottom:8px;}
-    .bottleneck-block p{font-size:13px;line-height:1.7;}
+    .bottleneck-block p{font-size:13px;line-height:1.7;color:#333;}
     .pillar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
-    .pillar-name{width:90px;font-size:13px;flex-shrink:0;}
+    .pillar-name{width:90px;font-size:13px;flex-shrink:0;color:#111;}
     .pillar-track{flex:1;height:7px;background:#f3f4f6;border-radius:999px;overflow:hidden;}
-    .pillar-fill{height:100%;border-radius:999px;}
+    .pillar-fill{height:100%;border-radius:999px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
     .pillar-score{width:28px;font-size:12px;font-weight:700;text-align:right;}
     .insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
     .insight-card{border-radius:10px;padding:16px;border:1px solid #e5e7eb;background:#fafafa;}
     .insight-card .i-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
     .insight-card .i-icon{font-size:18px;}
-    .insight-card .i-title{font-size:13px;font-weight:700;}
+    .insight-card .i-title{font-size:13px;font-weight:700;color:#111;}
     .insight-card .i-score{font-size:11px;font-weight:700;margin-left:auto;padding:2px 8px;border-radius:999px;background:#eee;}
     .insight-card p{font-size:12px;line-height:1.6;color:#555;}
     .insight-card ul{font-size:12px;line-height:1.7;color:#555;padding-left:14px;margin-top:6px;}
@@ -865,19 +888,35 @@ function downloadPDF(){
     .disclaimer-block{background:#fffbeb;border:1px solid #fcd34d;border-radius:10px;padding:20px;margin-bottom:16px;}
     .disclaimer-block h4{color:#d97706;font-size:13px;margin-bottom:8px;}
     .disclaimer-block p{font-size:12px;color:#555;line-height:1.7;}
-    .cta-block,.btn-gold,.btn-pdf,.chart-wrap{display:none!important;}
+    .cta-block,.btn-gold,.btn-pdf,.chart-wrap,#email-status,#pdf-msg{display:none!important;}
     .divider{display:none;}
     @page{margin:16mm;size:A4;}
   `;
 
-  const win = window.open('','_blank','width=900,height=700');
-  win.document.write(`<!DOCTYPE html><html><head>
+  // Cria blob e link de download — não depende de popup
+  const fullHtml = `<!DOCTYPE html><html><head>
     <meta charset="UTF-8"/>
     <title>Diagnóstico 360° — ${state.empresa}</title>
     <style>${styles}</style>
-  </head><body>${reportHTML}</body></html>`);
-  win.document.close();
-  win.onload = ()=>{ win.focus(); win.print(); };
+  </head><body>${reportHTML}</body></html>`;
+
+  const blob = new Blob([fullHtml], {type:'text/html'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = `Diagnostico360-${state.empresa.replace(/\s+/g,'-')}.html`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 3000);
+
+  // Restaura botão e mostra instrução
+  if(btn){ btn.disabled=false; btn.innerHTML='<span>⬇️</span> Baixar Relatório em PDF'; }
+  if(msg){
+    msg.style.display='block';
+    msg.style.color='var(--green)';
+    msg.innerHTML='✅ Arquivo baixado! Abra-o no navegador e use <strong>Ctrl+P → Salvar como PDF</strong>.';
+  }
 }
 </script>
 </body>
