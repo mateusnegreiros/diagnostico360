@@ -546,7 +546,8 @@ function unlock(){
   state.email=email;state.cpf=cpf;state.cnpj=cnpj;
   saveToStorage();
   buildReport();
-  sendEmails(); // dispara os dois e-mails em background
+  sendEmails();
+  saveToSheets();
   go('s-report');
 }
 
