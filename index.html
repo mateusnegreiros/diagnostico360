@@ -25,8 +25,9 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
 .hero-sub{color:var(--muted);text-align:center;max-width:500px;margin:16px 0 40px;font-size:16px;}
 .pillars-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:40px;}
 .pill{background:var(--surface2);border:1px solid var(--border);border-radius:999px;padding:6px 16px;font-size:13px;color:var(--muted);}
-.btn-primary{background:linear-gradient(135deg,var(--accent),#8b5cf6);color:#fff;border:none;border-radius:999px;padding:16px 40px;font-size:16px;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 0 30px rgba(108,99,255,.4);}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#8b5cf6);color:#fff;border:none;border-radius:999px;padding:16px 40px;font-size:16px;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s,opacity .2s;box-shadow:0 0 30px rgba(108,99,255,.4);}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(108,99,255,.6);}
+.btn-primary:disabled{opacity:.6;cursor:not-allowed;transform:none;}
 .trust-row{display:flex;gap:24px;margin-top:32px;color:var(--muted);font-size:13px;flex-wrap:wrap;justify-content:center;}
 
 /* CARD / ONBOARD */
@@ -37,6 +38,9 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
 .form-group label{display:block;font-size:13px;color:var(--muted);margin-bottom:8px;letter-spacing:.5px;text-transform:uppercase;}
 .form-group input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 16px;color:var(--text);font-size:15px;outline:none;transition:border-color .2s;}
 .form-group input:focus{border-color:var(--accent);}
+.form-group input.invalid{border-color:var(--red);}
+.form-group input.valid{border-color:var(--green);}
+.inline-err{font-size:12px;color:var(--red);margin-top:5px;display:none;}
 
 /* QUIZ */
 #s-quiz{justify-content:flex-start;padding-top:32px;}
@@ -44,7 +48,6 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
 .progress-bar{height:5px;background:var(--surface2);border-radius:999px;overflow:hidden;margin-top:12px;}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:999px;transition:width .4s ease;}
 .step-label{font-size:12px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
-.pillar-badge{display:inline-flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);border-radius:999px;padding:6px 16px;font-size:13px;margin-bottom:20px;}
 .question-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;width:100%;max-width:620px;margin-bottom:20px;}
 .question-card h3{font-size:17px;margin-bottom:24px;line-height:1.5;}
 .scale-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
@@ -57,7 +60,9 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
 .open-card p{font-size:15px;margin-bottom:16px;line-height:1.6;color:var(--muted);}
 .open-card textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;color:var(--text);font-size:15px;resize:vertical;min-height:110px;outline:none;font-family:inherit;transition:border-color .2s;}
 .open-card textarea:focus{border-color:var(--accent);}
-.quiz-nav{display:flex;gap:12px;width:100%;max-width:620px;}
+.char-counter{font-size:11px;color:var(--muted);text-align:right;margin-top:5px;}
+.char-counter.warn{color:var(--gold);}
+.quiz-nav{display:flex;gap:12px;width:100%;max-width:620px;padding-bottom:32px;}
 .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:999px;padding:13px 28px;font-size:15px;cursor:pointer;transition:all .2s;}
 .btn-ghost:hover{border-color:var(--accent);color:var(--text);}
 
@@ -88,24 +93,16 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
 .report-name{font-size:14px;color:var(--muted);margin-bottom:10px;}
 .report-score-big{font-size:clamp(52px,9vw,80px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;}
 .report-score-label{color:var(--muted);font-size:14px;margin-top:6px;}
-
 .section-title{font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:16px;font-weight:600;}
 .report-block{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:20px;}
-.report-block h4{font-size:16px;margin-bottom:12px;}
-
 .bottleneck-block{background:linear-gradient(135deg,rgba(239,68,68,.08),rgba(108,99,255,.08));border:1px solid rgba(239,68,68,.3);border-radius:var(--radius);padding:30px;margin-bottom:20px;}
 .bottleneck-block h3{font-size:17px;margin-bottom:12px;color:#ef4444;}
 .bottleneck-block p{font-size:15px;line-height:1.8;}
-
 .pillar-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
 .pillar-name{width:100px;font-size:14px;flex-shrink:0;}
 .pillar-track{flex:1;height:9px;background:var(--surface2);border-radius:999px;overflow:hidden;}
 .pillar-fill{height:100%;border-radius:999px;transition:width 1.2s ease;}
 .pillar-score{width:32px;font-size:13px;font-weight:700;text-align:right;}
-
-.chart-wrap{position:relative;width:100%;max-width:360px;margin:0 auto;}
-
-/* INSIGHT CARDS */
 .insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
 @media(max-width:560px){.insight-grid{grid-template-columns:1fr;}}
 .insight-card{border-radius:var(--radius);padding:22px;border:1px solid;}
@@ -115,17 +112,13 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
 .insight-card .i-score{font-size:12px;font-weight:700;margin-left:auto;padding:3px 10px;border-radius:999px;}
 .insight-card p{font-size:13px;line-height:1.7;color:var(--muted);}
 .insight-card ul{font-size:13px;line-height:1.8;color:var(--muted);padding-left:16px;margin-top:8px;}
-
 .reflection-item{border-bottom:1px solid var(--border);padding:18px 0;}
 .reflection-item:last-child{border-bottom:none;}
 .reflection-pillar{font-size:12px;color:var(--accent2);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
 .reflection-text{font-size:14px;color:var(--muted);font-style:italic;}
-
-/* DISCLAIMER */
 .disclaimer-block{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.25);border-radius:var(--radius);padding:28px;margin-bottom:20px;}
 .disclaimer-block h4{color:var(--gold);font-size:15px;margin-bottom:10px;}
 .disclaimer-block p{font-size:14px;color:var(--muted);line-height:1.8;}
-
 .cta-block{background:linear-gradient(135deg,rgba(108,99,255,.15),rgba(139,92,246,.1));border:1px solid rgba(108,99,255,.35);border-radius:var(--radius);padding:40px;text-align:center;margin-bottom:48px;}
 .cta-block h3{font-size:21px;margin-bottom:12px;}
 .cta-block p{color:var(--muted);margin-bottom:24px;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.8;}
@@ -133,9 +126,11 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
 .btn-gold:hover{transform:translateY(-2px);box-shadow:0 0 42px rgba(245,158,11,.5);}
 .btn-pdf{background:transparent;border:2px solid var(--border);color:var(--muted);border-radius:999px;padding:13px 32px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;}
 .btn-pdf:hover{border-color:var(--accent2);color:var(--text);}
+.btn-pdf:disabled{opacity:.5;cursor:not-allowed;}
 .divider{width:100%;height:1px;background:var(--border);margin:8px 0 24px;}
+.chart-wrap{position:relative;width:100%;max-width:340px;margin:0 auto;}
 
-/* ── MOBILE ── */
+/* MOBILE */
 @media(max-width:480px){
   .screen{padding:16px 12px;}
   .hero-title{font-size:24px;}
@@ -147,7 +142,7 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
   .card h2{font-size:19px;}
   .question-card{padding:22px 16px;}
   .question-card h3{font-size:15px;}
-  .scale-btn{width:46px;height:46px;font-size:15px;}
+  .scale-btn{width:52px;height:52px;font-size:15px;}
   .open-card{padding:22px 16px;}
   .quiz-nav{flex-direction:column;}
   .quiz-nav .btn-ghost,.quiz-nav .btn-primary{width:100%;text-align:center;}
@@ -163,7 +158,6 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
   .pillar-name{width:80px;font-size:13px;}
   .teaser-bar-label{width:76px;font-size:12px;}
   .disclaimer-block{padding:20px 16px;}
-  .disclaimer-block p{font-size:13px;}
   .report-name{font-size:12px;}
 }
 </style>
@@ -196,13 +190,17 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
     <h2>Antes de começar</h2>
     <p>Preencha os dados abaixo para personalizar seu relatório estratégico.</p>
     <div class="form-group"><label>Seu nome completo</label>
-      <input type="text" id="inp-nome" placeholder="Ex: João Silva"/></div>
+      <input type="text" id="inp-nome" placeholder="Ex: João Silva" oninput="validateField(this,'text')"/>
+    </div>
     <div class="form-group"><label>Nome da empresa</label>
-      <input type="text" id="inp-empresa" placeholder="Ex: Empresa LTDA"/></div>
+      <input type="text" id="inp-empresa" placeholder="Ex: Empresa LTDA" oninput="validateField(this,'text')"/>
+    </div>
     <div class="form-group"><label>Seu cargo</label>
-      <input type="text" id="inp-cargo" placeholder="Ex: CEO, Sócio, Diretor"/></div>
+      <input type="text" id="inp-cargo" placeholder="Ex: CEO, Sócio, Diretor" oninput="validateField(this,'text')"/>
+    </div>
     <div class="form-group"><label>Setor / segmento</label>
-      <input type="text" id="inp-setor" placeholder="Ex: Varejo, Serviços, Tecnologia"/></div>
+      <input type="text" id="inp-setor" placeholder="Ex: Varejo, Serviços, Tecnologia" oninput="validateField(this,'text')"/>
+    </div>
     <button class="btn-primary" style="width:100%" onclick="startQuiz()">Iniciar Diagnóstico →</button>
     <p id="onboard-err" style="color:var(--red);font-size:13px;margin-top:12px;display:none">Preencha todos os campos para continuar.</p>
   </div>
@@ -218,7 +216,7 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
   </div>
   <div id="quiz-content"></div>
   <div class="quiz-nav">
-    <button class="btn-ghost" onclick="prevQ()">← Voltar</button>
+    <button class="btn-ghost" id="btn-prev" onclick="prevQ()">← Voltar</button>
     <button class="btn-primary" id="btn-next" onclick="nextQ()">Próxima →</button>
   </div>
 </div>
@@ -230,102 +228,110 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
   <p class="unlock-sub">Para liberar seu relatório completo com insights estratégicos e recomendações personalizadas, precisamos validar algumas informações.</p>
   <div class="teaser-bars" id="teaser-bars"></div>
   <div class="card" style="max-width:480px">
-    <div class="form-group"><label>E-mail profissional</label>
-      <input type="email" id="inp-email" placeholder="seu@email.com"/></div>
-    <div class="form-group"><label>CPF</label>
-      <input type="text" id="inp-cpf" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)"/></div>
-    <div class="form-group"><label>CNPJ</label>
-      <input type="text" id="inp-cnpj" placeholder="00.000.000/0000-00" maxlength="18" oninput="maskCNPJ(this)"/></div>
+    <div class="form-group">
+      <label>E-mail profissional</label>
+      <input type="email" id="inp-email" placeholder="seu@email.com" oninput="validateField(this,'email')"/>
+      <p class="inline-err" id="err-email">E-mail inválido.</p>
+    </div>
+    <div class="form-group">
+      <label>CPF</label>
+      <input type="text" id="inp-cpf" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this);validateField(this,'cpf')"/>
+      <p class="inline-err" id="err-cpf">CPF inválido.</p>
+    </div>
+    <div class="form-group">
+      <label>CNPJ</label>
+      <input type="text" id="inp-cnpj" placeholder="00.000.000/0000-00" maxlength="18" oninput="maskCNPJ(this);validateField(this,'cnpj')"/>
+      <p class="inline-err" id="err-cnpj">CNPJ inválido.</p>
+    </div>
     <div class="checkbox-row">
       <input type="checkbox" id="lgpd-check"/>
       <label for="lgpd-check">Autorizo o uso dos meus dados para análise e contato estratégico, conforme a LGPD.</label>
     </div>
     <p id="unlock-err" class="error-msg">Preencha todos os campos corretamente para continuar.</p>
-    <button class="btn-primary" style="width:100%;margin-top:20px" onclick="unlock()">Desbloquear Diagnóstico 🔓</button>
+    <button class="btn-primary" id="btn-unlock" style="width:100%;margin-top:20px" onclick="unlock()">Desbloquear Diagnóstico 🔓</button>
   </div>
 </div>
 
 <!-- ══ SCREEN 5: REPORT ══ -->
 <div id="s-report" class="screen">
   <div class="report-wrap">
-
     <div class="report-header">
       <p class="report-name" id="r-name"></p>
       <div id="r-badge" class="classification-badge"></div>
       <div class="report-score-big" id="r-score"></div>
       <div class="report-score-label">Pontuação Geral (0–10)</div>
     </div>
-
-    <!-- Gargalo principal -->
     <div class="bottleneck-block">
       <h3>⚠️ Seu Principal Gargalo Estratégico</h3>
       <p id="r-bottleneck"></p>
     </div>
-
-    <!-- Radar chart -->
     <div class="report-block">
       <p class="section-title">Radar Estratégico — Visão 360°</p>
       <div class="chart-wrap"><canvas id="radar-chart"></canvas></div>
     </div>
-
-    <!-- Score por pilar -->
     <div class="report-block">
       <p class="section-title">Score por Pilar</p>
       <div id="r-pillar-bars"></div>
     </div>
-
-    <!-- Insights por área -->
     <div>
       <p class="section-title">Insights & Recomendações por Área</p>
       <div class="insight-grid" id="r-insights"></div>
     </div>
-
-    <!-- Reflections -->
     <div class="report-block">
       <p class="section-title">Suas Reflexões Estratégicas</p>
       <div id="r-reflections"></div>
     </div>
-
-    <!-- Disclaimer -->
     <div class="disclaimer-block">
       <h4>⚠️ Importante: Sobre Este Diagnóstico</h4>
-      <p>Este relatório representa um <strong>panorama inicial</strong> baseado nas suas respostas ao questionário. Ele é um ponto de partida valioso para identificar áreas de atenção, mas <strong>não substitui uma investigação aprofundada</strong>. Um diagnóstico empresarial preciso exige análise de dados históricos, entrevistas com equipe, mapeamento de processos internos, análise de indicadores financeiros reais e sessões de imersão estratégica. Recomendamos fortemente uma <strong>consultoria especializada</strong> para transformar este panorama em um plano de ação concreto e seguro.</p>
+      <p>Este relatório representa um <strong>panorama inicial</strong> baseado nas suas respostas ao questionário. Ele é um ponto de partida valioso para identificar áreas de atenção, mas <strong>não substitui uma investigação aprofundada</strong>. Um diagnóstico empresarial preciso exige análise de dados históricos, entrevistas com a equipe, mapeamento de processos internos, análise de indicadores financeiros reais e sessões de imersão estratégica. Recomendamos fortemente uma <strong>consultoria especializada</strong> para transformar este panorama em um plano de ação concreto e seguro.</p>
     </div>
-
     <div class="divider"></div>
-
-    <!-- CTA -->
     <div class="cta-block">
       <h3>🚀 Próximo Passo Recomendado</h3>
       <p>Com base no seu diagnóstico, recomendamos uma <strong>sessão estratégica</strong> para investigação aprofundada, definição de prioridades e construção do plano de ação personalizado para <span id="r-empresa-cta"></span>.</p>
       <p id="email-status" style="font-size:13px;margin-bottom:16px;min-height:20px;"></p>
-      <button class="btn-gold" onclick="applyCTA()">Quero aplicar para sessão estratégica</button>
+      <button class="btn-gold" onclick="applyCTA()">Quero transformar meu diagnóstico em plano de ação</button>
       <button class="btn-pdf" id="btn-pdf" onclick="downloadPDF()" style="margin-top:14px;display:inline-flex;align-items:center;gap:8px;">
         <span>⬇️</span> Baixar Relatório em PDF
       </button>
-      <p id="pdf-msg" style="display:none;font-size:13px;color:var(--muted);margin-top:10px;"></p>
+      <p id="pdf-msg" style="display:none;font-size:13px;color:var(--green);margin-top:10px;"></p>
     </div>
-
   </div>
 </div>
 
 <script>
 /* ══════════════════════════════════════
+   EMAILJS CONFIG
+══════════════════════════════════════ */
+const EMAILJS_CFG = {
+  publicKey : '84cSnlbPirMj8QzpJ',
+  serviceId : 'service_0x9pxbo',
+  tmplAdmin : 'template_gp7imt8',
+  tmplClient: 'template_emjf3fg',
+  adminEmail: 'mateus.negreiros@hotmail.com'
+};
+emailjs.init(EMAILJS_CFG.publicKey);
+
+/* ══════════════════════════════════════
+   GOOGLE SHEETS CONFIG
+══════════════════════════════════════ */
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbx7HQ09V2puvRl0dE89BB_wxNThKB_XQOBhAjvoorQ00HMYxS7wXUGDOf1D7QCfNXyP/exec';
+
+/* ══════════════════════════════════════
    PILLARS
 ══════════════════════════════════════ */
 const PILLARS = [
-  { id:'marketing', label:'Marketing', icon:'📣', color:'#6c63ff' },
-  { id:'vendas',    label:'Vendas',    icon:'💰', color:'#8b5cf6' },
-  { id:'pessoas',   label:'Pessoas',   icon:'👥', color:'#a78bfa' },
-  { id:'processos', label:'Processos', icon:'⚙️', color:'#7c3aed' },
-  { id:'financas',  label:'Finanças',  icon:'📊', color:'#5b21b6' }
+  {id:'marketing',label:'Marketing',icon:'📣',color:'#6c63ff'},
+  {id:'vendas',   label:'Vendas',   icon:'💰',color:'#8b5cf6'},
+  {id:'pessoas',  label:'Pessoas',  icon:'👥',color:'#a78bfa'},
+  {id:'processos',label:'Processos',icon:'⚙️',color:'#7c3aed'},
+  {id:'financas', label:'Finanças', icon:'📊',color:'#5b21b6'}
 ];
 
 /* ══════════════════════════════════════
    QUESTIONS — 30 scale + 5 open = 35
 ══════════════════════════════════════ */
 const QUESTIONS = [
-  // ── MARKETING (6 scale + 1 open) ──
   {pillar:'marketing',type:'scale',text:'Com que frequência sua empresa gera novos leads qualificados de forma consistente?'},
   {pillar:'marketing',type:'scale',text:'Seu posicionamento de marca está claramente definido e diferenciado da concorrência?'},
   {pillar:'marketing',type:'scale',text:'Você possui canais de aquisição de clientes documentados e com desempenho monitorado?'},
@@ -333,8 +339,6 @@ const QUESTIONS = [
   {pillar:'marketing',type:'scale',text:'Você conhece o custo de aquisição de cliente (CAC) e o retorno sobre investimento em marketing?'},
   {pillar:'marketing',type:'scale',text:'Sua marca transmite confiança e autoridade para o público-alvo?'},
   {pillar:'marketing',type:'open', text:'Descreva o maior obstáculo que você enfrenta para atrair e engajar clientes ideais hoje. Seja específico sobre o que já tentou e o que não funcionou.'},
-
-  // ── VENDAS (6 scale + 1 open) ──
   {pillar:'vendas',type:'scale',text:'Seu processo de vendas é documentado, estruturado e seguido consistentemente pela equipe?'},
   {pillar:'vendas',type:'scale',text:'Você tem previsibilidade real sobre a receita dos próximos 30 a 90 dias?'},
   {pillar:'vendas',type:'scale',text:'Sua equipe comercial recebe treinamento e acompanhamento de desempenho regularmente?'},
@@ -342,8 +346,6 @@ const QUESTIONS = [
   {pillar:'vendas',type:'scale',text:'Você utiliza um CRM ou sistema equivalente para gerenciar o pipeline comercial?'},
   {pillar:'vendas',type:'scale',text:'Há estratégias ativas de upsell, cross-sell ou retenção de clientes existentes?'},
   {pillar:'vendas',type:'open', text:'Quais etapas do processo comercial mais travam, demoram ou geram perda de negócios? O que você acredita ser a causa raiz?'},
-
-  // ── PESSOAS (6 scale + 1 open) ──
   {pillar:'pessoas',type:'scale',text:'Cada membro da equipe conhece claramente suas metas, responsabilidades e critérios de avaliação?'},
   {pillar:'pessoas',type:'scale',text:'Sua empresa possui um processo estruturado de recrutamento, onboarding e integração de novos colaboradores?'},
   {pillar:'pessoas',type:'scale',text:'O nível de engajamento, motivação e autonomia da equipe é alto?'},
@@ -351,8 +353,6 @@ const QUESTIONS = [
   {pillar:'pessoas',type:'scale',text:'A empresa consegue reter talentos e reduzir o turnover?'},
   {pillar:'pessoas',type:'scale',text:'A liderança da empresa é capaz de delegar com confiança, sem precisar microgerenciar?'},
   {pillar:'pessoas',type:'open', text:'Qual é o maior desafio de gestão de pessoas que você enfrenta hoje? Como ele impacta os resultados do negócio?'},
-
-  // ── PROCESSOS (6 scale + 1 open) ──
   {pillar:'processos',type:'scale',text:'As operações da empresa funcionam de forma padronizada e independente da sua presença constante?'},
   {pillar:'processos',type:'scale',text:'Os processos críticos estão documentados de forma acessível e atualizada?'},
   {pillar:'processos',type:'scale',text:'Você utiliza tecnologia e automação para reduzir tarefas manuais e repetitivas?'},
@@ -360,8 +360,6 @@ const QUESTIONS = [
   {pillar:'processos',type:'scale',text:'A qualidade da entrega ao cliente é consistente, independente de quem executa?'},
   {pillar:'processos',type:'scale',text:'A empresa consegue escalar operações sem que isso cause caos ou queda de qualidade?'},
   {pillar:'processos',type:'open', text:'Que processo, se estruturado ou automatizado agora, traria o maior impacto ao negócio? O que impede isso de já ter sido feito?'},
-
-  // ── FINANÇAS (6 scale + 1 open) ──
   {pillar:'financas',type:'scale',text:'Você tem visibilidade clara e atualizada do fluxo de caixa da empresa?'},
   {pillar:'financas',type:'scale',text:'A empresa conhece suas margens reais por produto, serviço ou linha de negócio?'},
   {pillar:'financas',type:'scale',text:'As decisões de investimento são baseadas em análise de dados e projeções financeiras?'},
@@ -371,7 +369,7 @@ const QUESTIONS = [
   {pillar:'financas',type:'open', text:'Qual aspecto financeiro gera mais insegurança ou falta de controle no negócio hoje? Como isso afeta suas decisões estratégicas?'}
 ];
 
-const TOTAL_Q = QUESTIONS.length; // 35
+const TOTAL_Q = QUESTIONS.length;
 
 /* ══════════════════════════════════════
    STATE
@@ -379,8 +377,9 @@ const TOTAL_Q = QUESTIONS.length; // 35
 let state = {
   nome:'',empresa:'',cargo:'',setor:'',
   email:'',cpf:'',cnpj:'',
-  answers:{}, scores:{}, overall:0,
-  classification:'', currentQ:0
+  answers:{},scores:{},overall:0,
+  classification:'',currentQ:0,
+  quizDone:false // FIX #2: flag para bloquear voltar após terminar
 };
 
 /* ══════════════════════════════════════
@@ -389,7 +388,30 @@ let state = {
 function go(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  window.scrollTo(0,0);
+  window.scrollTo({top:0,behavior:'smooth'}); // FIX #9: scroll ao topo ao trocar tela
+}
+
+/* ══════════════════════════════════════
+   INLINE VALIDATION — FIX #6
+══════════════════════════════════════ */
+function validateField(el, type){
+  let ok = false;
+  const v = el.value.trim();
+  if(type==='text')  ok = v.length >= 2;
+  if(type==='email') ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  if(type==='cpf')   ok = validCPF(v);
+  if(type==='cnpj')  ok = validCNPJ(v);
+
+  if(v.length === 0){
+    el.classList.remove('valid','invalid');
+    const err = document.getElementById('err-'+el.id.replace('inp-',''));
+    if(err) err.style.display='none';
+    return;
+  }
+  el.classList.toggle('valid', ok);
+  el.classList.toggle('invalid', !ok);
+  const err = document.getElementById('err-'+el.id.replace('inp-',''));
+  if(err) err.style.display = (!ok && v.length>0) ? 'block' : 'none';
 }
 
 /* ══════════════════════════════════════
@@ -403,7 +425,7 @@ function startQuiz(){
   if(!n||!e||!c||!s){document.getElementById('onboard-err').style.display='block';return;}
   document.getElementById('onboard-err').style.display='none';
   state.nome=n;state.empresa=e;state.cargo=c;state.setor=s;
-  state.currentQ=0;
+  state.currentQ=0;state.quizDone=false;
   renderQuestion();
   go('s-quiz');
 }
@@ -415,12 +437,16 @@ function renderQuestion(){
   const q=QUESTIONS[state.currentQ];
   const p=PILLARS.find(x=>x.id===q.pillar);
   const idx=state.currentQ;
-  const pct=Math.round((idx/TOTAL_Q)*100);
+  const pct=Math.round(((idx+1)/TOTAL_Q)*100);
 
   const plEl=document.getElementById('pillar-label');
   if(plEl) plEl.textContent=`${p.icon} ${p.label}`;
   document.getElementById('progress-fill').style.width=pct+'%';
   document.getElementById('btn-next').textContent=idx===TOTAL_Q-1?'Ver Diagnóstico →':'Próxima →';
+
+  // FIX #2: esconde botão voltar na primeira pergunta
+  const prevBtn=document.getElementById('btn-prev');
+  if(prevBtn) prevBtn.style.visibility=idx===0?'hidden':'visible';
 
   const wrap=document.getElementById('quiz-content');
   wrap.innerHTML='';
@@ -438,29 +464,58 @@ function renderQuestion(){
     wrap.innerHTML=html;
   } else {
     const saved=state.answers[idx]||'';
+    const len=saved.length;
     wrap.innerHTML=`<div class="open-card">
       <h3>💬 Reflexão Estratégica — ${p.label}</h3>
       <p>${q.text}</p>
-      <textarea id="open-ans" placeholder="Escreva livremente. Quanto mais detalhes, mais preciso seu relatório...">${saved}</textarea>
+      <textarea id="open-ans" maxlength="600" placeholder="Escreva livremente. Quanto mais detalhes, mais preciso seu relatório..." oninput="updateCounter(this)">${saved}</textarea>
+      <div class="char-counter ${len>500?'warn':''}" id="char-counter">${len}/600 caracteres</div>
     </div>`;
   }
+
+  // FIX #9: scroll suave ao topo do quiz a cada troca de pergunta
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* FIX #7: contador de caracteres */
+function updateCounter(ta){
+  const c=document.getElementById('char-counter');
+  if(!c) return;
+  const len=ta.value.length;
+  c.textContent=`${len}/600 caracteres`;
+  c.classList.toggle('warn', len>500);
 }
 
 function selectScale(idx,val){
   state.answers[idx]=val;
   document.querySelectorAll('.scale-btn').forEach((b,i)=>b.classList.toggle('selected',i===val-1));
 }
-function prevQ(){if(state.currentQ>0){state.currentQ--;renderQuestion();}}
+
+function prevQ(){
+  // FIX #2: impede voltar se quiz já terminou
+  if(state.quizDone) return;
+  if(state.currentQ>0){state.currentQ--;renderQuestion();}
+}
+
 function nextQ(){
   const q=QUESTIONS[state.currentQ];
-  if(q.type==='scale'&&state.answers[state.currentQ]===undefined){alert('Selecione uma nota de 1 a 5 para continuar.');return;}
+  if(q.type==='scale'&&state.answers[state.currentQ]===undefined){
+    alert('Selecione uma nota de 1 a 5 para continuar.');return;
+  }
   if(q.type==='open'){
     const v=document.getElementById('open-ans').value.trim();
     if(!v){alert('Escreva sua reflexão para continuar.');return;}
     state.answers[state.currentQ]=v;
   }
-  if(state.currentQ===TOTAL_Q-1){calcScores();buildTeaser();go('s-unlock');}
-  else{state.currentQ++;renderQuestion();}
+  if(state.currentQ===TOTAL_Q-1){
+    state.quizDone=true; // FIX #2: marca quiz como concluído
+    calcScores();
+    buildTeaser();
+    go('s-unlock');
+  } else {
+    state.currentQ++;
+    renderQuestion();
+  }
 }
 
 /* ══════════════════════════════════════
@@ -480,7 +535,7 @@ function calcScores(){
 }
 
 /* ══════════════════════════════════════
-   TEASER BARS (blurred)
+   TEASER BARS
 ══════════════════════════════════════ */
 function buildTeaser(){
   document.getElementById('teaser-bars').innerHTML=PILLARS.map(p=>`
@@ -526,7 +581,7 @@ function validCNPJ(c){
 }
 
 /* ══════════════════════════════════════
-   UNLOCK
+   UNLOCK — FIX #4: loading no botão
 ══════════════════════════════════════ */
 function unlock(){
   const email=document.getElementById('inp-email').value.trim();
@@ -534,7 +589,8 @@ function unlock(){
   const cnpj=document.getElementById('inp-cnpj').value.trim();
   const lgpd=document.getElementById('lgpd-check').checked;
   const err=document.getElementById('unlock-err');
-  if(!email||!email.includes('@')||!validCPF(cpf)||!validCNPJ(cnpj)||!lgpd){
+
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||!validCPF(cpf)||!validCNPJ(cnpj)||!lgpd){
     err.style.display='block';
     err.textContent=!lgpd?'Aceite os termos LGPD para continuar.':
       !validCPF(cpf)?'CPF inválido. Verifique e tente novamente.':
@@ -544,11 +600,23 @@ function unlock(){
   }
   err.style.display='none';
   state.email=email;state.cpf=cpf;state.cnpj=cnpj;
+
+  // FIX #4: loading imediato no botão
+  const btn=document.getElementById('btn-unlock');
+  btn.disabled=true;
+  btn.textContent='⏳ Gerando seu relatório...';
+
   saveToStorage();
+
+  // FIX #3: buildReport primeiro, depois envios em background
   buildReport();
-  sendEmails();
-  saveToSheets();
   go('s-report');
+
+  // Envios em background após render
+  setTimeout(()=>{
+    sendEmails();
+    saveToSheets();
+  }, 300);
 }
 
 /* ══════════════════════════════════════
@@ -565,118 +633,51 @@ function saveToStorage(){
 }
 
 /* ══════════════════════════════════════
-   INSIGHT LIBRARY
-   Returns {icon, color, border, bg, title, body, actions[]}
+   INSIGHT ENGINE
 ══════════════════════════════════════ */
-function getInsight(pillarId, score){
-  const low  = score < 5;
-  const mid  = score >= 5 && score < 7.5;
-  // high = score >= 7.5
-
-  const map = {
+function getInsight(pid,score){
+  const tier=score<5?'low':score<7.5?'mid':'high';
+  const map={
     marketing:{
-      low:{
-        title:'Aquisição em Risco',
-        body:'Sua operação de marketing ainda não tem estrutura suficiente para gerar demanda previsível. Sem um motor de aquisição funcionando, o negócio depende de indicações e sorte — o que torna o crescimento imprevisível e frágil.',
-        actions:['Defina seu ICP (perfil de cliente ideal) com clareza', 'Escolha 1 ou 2 canais de aquisição e domine-os antes de diversificar', 'Implante métricas básicas: CAC, taxa de conversão e volume de leads por canal', 'Crie uma proposta de valor clara e teste-a com clientes reais']
-      },
-      mid:{
-        title:'Marketing em Desenvolvimento',
-        body:'Você já tem alguma estrutura, mas a consistência e a mensuração ainda são pontos fracos. O crescimento acontece, mas de forma irregular. O próximo nível exige sistematização e cultura de dados.',
-        actions:['Documente e padronize os processos de geração de demanda', 'Implemente rastreamento de métricas por canal', 'Desenvolva uma cadência de produção de conteúdo estratégico', 'Teste e otimize sua proposta de valor continuamente']
-      },
-      high:{
-        title:'Marketing em Maturidade',
-        body:'Parabéns — sua operação de marketing demonstra maturidade acima da média. Canais estruturados, mensuração em andamento e posicionamento consistente são ativos raros. Isso cria uma vantagem competitiva real e sustentável. O desafio agora é escalar sem perder qualidade.',
-        actions:['Explore canais complementares para diversificar aquisição', 'Invista em brand equity para reduzir dependência de mídia paga', 'Aprofunde a análise de LTV por segmento de cliente', 'Construa uma máquina de marketing que funcione com menos intervenção sua']
-      }
+      low:{head:'Aquisição em Risco',body:'Sem um motor de aquisição funcionando, o negócio depende de indicações e sorte — tornando o crescimento frágil e imprevisível.',acts:['Defina seu ICP com clareza antes de qualquer ação','Escolha 1 canal de aquisição e domine-o primeiro','Implante métricas básicas: CAC e volume de leads por canal','Crie ou refine sua proposta de valor com base em clientes reais']},
+      mid:{head:'Marketing em Desenvolvimento',body:'Há estrutura inicial, mas consistência e mensuração ainda são pontos fracos. O crescimento acontece, mas de forma irregular.',acts:['Documente e padronize os processos de geração de demanda','Implemente rastreamento de métricas por canal','Desenvolva uma cadência de produção de conteúdo estratégico','Teste continuamente sua proposta de valor']},
+      high:{head:'Marketing em Maturidade',body:'Canais estruturados, mensuração em andamento e posicionamento consistente. Isso cria vantagem competitiva real e sustentável.',acts:['Explore canais complementares para diversificar aquisição','Invista em brand equity para reduzir dependência de mídia paga','Aprofunde análise de LTV por segmento de cliente','Construa um motor de marketing que funcione com menos intervenção']}
     },
     vendas:{
-      low:{
-        title:'Comercial Sem Estrutura',
-        body:'Um processo comercial sem estrutura é como tentar construir em areia movediça. Cada venda depende excessivamente de quem realiza, tornando o resultado inconsistente e a previsibilidade inexistente. Isso limita diretamente a capacidade de crescer.',
-        actions:['Mapeie e documente as etapas do funil comercial atual', 'Implemente um CRM — mesmo que simples — para rastrear o pipeline', 'Defina metas por etapa (leads → propostas → fechamentos)', 'Crie um script ou playbook de vendas baseado nos melhores vendedores']
-      },
-      mid:{
-        title:'Comercial em Evolução',
-        body:'Seu processo comercial já tem fundação, mas ainda apresenta inconsistências que custam receita. A equipe vende, mas não necessariamente pelo processo — e isso dificulta a previsibilidade e a escalabilidade.',
-        actions:['Audite seu funil: onde estão os maiores gargalos de conversão?', 'Formalize o treinamento comercial e torne-o recorrente', 'Implemente reuniões de pipeline semanais com a equipe', 'Desenvolva estratégias de retenção e expansão de receita com clientes atuais']
-      },
-      high:{
-        title:'Máquina Comercial Estruturada',
-        body:'Sua área comercial está entre as mais maduras do mercado. Processo definido, previsibilidade de receita e uso de dados para decisão são diferenciais que a maioria das empresas leva anos para construir. Isso posiciona sua empresa para crescimento acelerado.',
-        actions:['Invista em tecnologia de sales intelligence para prospecção', 'Crie programas de indicação e fidelização para reduzir CAC', 'Estruture a área de Customer Success para maximizar LTV', 'Documente os segredos dos seus melhores vendedores e replique']
-      }
+      low:{head:'Comercial Sem Estrutura',body:'Cada venda depende de quem a realiza, tornando o resultado inconsistente e a previsibilidade inexistente.',acts:['Mapeie e documente as etapas do funil comercial atual','Implemente um CRM — mesmo que simples — para rastrear o pipeline','Defina metas por etapa: leads, propostas e fechamentos','Crie um playbook de vendas baseado nos melhores performers']},
+      mid:{head:'Comercial em Evolução',body:'Há fundação comercial, mas inconsistências ainda custam receita. A equipe vende, mas não necessariamente pelo processo.',acts:['Audite seu funil: onde estão os maiores gargalos de conversão?','Formalize o treinamento comercial e torne-o recorrente','Implemente reuniões de pipeline semanais com a equipe','Desenvolva estratégias de retenção e expansão com clientes atuais']},
+      high:{head:'Máquina Comercial Estruturada',body:'Processo definido, previsibilidade de receita e uso de dados para decisão. Isso posiciona sua empresa para crescimento acelerado.',acts:['Invista em sales intelligence para prospecção qualificada','Crie programas de indicação e fidelização para reduzir CAC','Estruture Customer Success para maximizar LTV','Documente os segredos dos seus melhores vendedores e replique']}
     },
     pessoas:{
-      low:{
-        title:'Gestão de Pessoas Crítica',
-        body:'Equipes sem clareza de metas, sem feedback estruturado e sem cultura de desenvolvimento criam uma operação frágil e dependente do fundador. Alta rotatividade, baixo engajamento e decisões centralizadas são sintomas comuns neste estágio.',
-        actions:['Defina e comunique metas individuais com clareza para cada pessoa', 'Estruture um processo simples de onboarding para novos colaboradores', 'Implemente reuniões 1:1 regulares entre líderes e equipe', 'Crie critérios objetivos de avaliação de desempenho']
-      },
-      mid:{
-        title:'Gestão em Transição',
-        body:'Você já percebe a importância das pessoas como ativo estratégico, e alguns processos começam a existir. Mas ainda há muita dependência de indivíduos-chave e pouca previsibilidade no desenvolvimento da equipe.',
-        actions:['Formalize planos de carreira e desenvolvimento individual', 'Crie rituais de cultura: reconhecimento, retrospectivas, celebrações', 'Invista em capacitação técnica e comportamental', 'Desenvolva líderes internos que possam multiplicar cultura']
-      },
-      high:{
-        title:'Cultura de Alto Desempenho',
-        body:'Uma equipe engajada, com autonomia e clareza de propósito é o maior ativo de qualquer empresa. O trabalho que você fez na gestão de pessoas está criando uma organização capaz de crescer sem depender exclusivamente de você — isso é raro e valioso.',
-        actions:['Estruture programas de mentoria e sucessão interna', 'Meça e monitore o engajamento com pesquisas regulares', 'Invista em benefícios estratégicos que retenham talentos sênior', 'Documente sua cultura para que ela escale com o crescimento']
-      }
+      low:{head:'Gestão de Pessoas Crítica',body:'Equipes sem clareza de metas e sem cultura de desenvolvimento criam operação frágil e dependente do fundador.',acts:['Defina e comunique metas individuais com clareza','Estruture um processo simples de onboarding','Implemente 1:1s regulares entre líderes e equipe','Crie critérios objetivos de avaliação de desempenho']},
+      mid:{head:'Gestão em Transição',body:'Você já percebe a importância das pessoas como ativo estratégico. Mas ainda há dependência de indivíduos-chave.',acts:['Formalize planos de carreira e desenvolvimento individual','Crie rituais de cultura: reconhecimento e celebrações','Invista em capacitação técnica e comportamental','Desenvolva líderes internos que multipliquem a cultura']},
+      high:{head:'Cultura de Alto Desempenho',body:'Uma equipe engajada com autonomia e clareza de propósito é o maior ativo de qualquer empresa. Você está construindo algo raro e valioso.',acts:['Estruture programas de mentoria e sucessão interna','Meça e monitore o engajamento com pesquisas regulares','Invista em benefícios estratégicos que retenham talentos sênior','Documente sua cultura para que ela escale com o crescimento']}
     },
     processos:{
-      low:{
-        title:'Operação Dependente e Frágil',
-        body:'Uma operação sem processos documentados e padronizados cria um gargalo humano — geralmente você mesmo. Cada problema exige sua intervenção, a qualidade varia e escalar se torna impossível sem caos. Este é um dos maiores limitadores de crescimento.',
-        actions:['Mapeie os 3 processos mais críticos e documente cada etapa', 'Identifique 2 ou 3 tarefas repetitivas que podem ser automatizadas agora', 'Defina KPIs operacionais mínimos para monitorar a saúde da operação', 'Crie um manual operacional básico para os processos principais']
-      },
-      mid:{
-        title:'Operação em Estruturação',
-        body:'Você já entende a importância dos processos e tem alguns documentados. Mas ainda há ilhas de conhecimento, dependências de pessoas-chave e inconsistências na entrega. A próxima fronteira é a padronização e a cultura de melhoria contínua.',
-        actions:['Revise e atualize os processos existentes com a equipe executora', 'Implemente uma ferramenta de gestão operacional (ex: Notion, Clickup)', 'Crie rotinas de auditoria interna para garantir conformidade', 'Introduza a metodologia de melhoria contínua (Kaizen ou PDCA)']
-      },
-      high:{
-        title:'Operação Escalável',
-        body:'Processos estruturados, documentados e monitorados são a espinha dorsal de uma empresa que escala com qualidade. Você está construindo um negócio que funciona — não apenas uma operação que sobrevive. Isso é o que separa empresas que crescem de empresas que ficam travadas.',
-        actions:['Avance para automação inteligente com IA em processos repetitivos', 'Construa dashboards operacionais em tempo real', 'Implemente gestão por OKRs conectando operação à estratégia', 'Certifique processos críticos para abrir portas a parceiros e clientes enterprise']
-      }
+      low:{head:'Operação Dependente e Frágil',body:'Uma operação sem processos documentados cria um gargalo humano — geralmente você mesmo. Escalar torna-se impossível sem caos.',acts:['Mapeie os 3 processos mais críticos e documente cada etapa','Identifique 2-3 tarefas repetitivas que podem ser automatizadas','Defina KPIs operacionais mínimos para monitorar a saúde da operação','Crie um manual operacional básico para os processos principais']},
+      mid:{head:'Operação em Estruturação',body:'Você tem alguns processos documentados, mas há ilhas de conhecimento e inconsistências na entrega.',acts:['Revise e atualize os processos existentes com quem os executa','Implemente ferramenta de gestão operacional (Notion, ClickUp)','Crie rotinas de auditoria interna para garantir conformidade','Introduza metodologia de melhoria contínua (PDCA ou Kaizen)']},
+      high:{head:'Operação Escalável',body:'Processos estruturados e monitorados são a espinha dorsal de uma empresa que escala com qualidade.',acts:['Avance para automação inteligente com IA em processos repetitivos','Construa dashboards operacionais em tempo real','Implemente OKRs conectando operação à estratégia','Certifique processos críticos para abrir portas a clientes enterprise']}
     },
     financas:{
-      low:{
-        title:'Saúde Financeira em Risco',
-        body:'Sem visibilidade financeira real, toda decisão estratégica é tomada no escuro. Falta de separação entre PF e PJ, fluxo de caixa não monitorado e ausência de margens por produto são combinações perigosas que podem inviabilizar o negócio mesmo em períodos de crescimento.',
-        actions:['Separe imediatamente as finanças pessoais das empresariais', 'Implemente um controle de fluxo de caixa — mesmo em planilha', 'Calcule a margem real de cada produto ou serviço', 'Defina um pró-labore fixo e pare de retirar valores aleatórios']
-      },
-      mid:{
-        title:'Finanças em Organização',
-        body:'Você já tem algum controle, mas as decisões ainda são mais reativas do que planejadas. A empresa pode estar crescendo em receita e encolhendo em lucro sem que você perceba — o que é extremamente comum neste estágio.',
-        actions:['Construa um DRE (Demonstrativo de Resultado) mensal simplificado', 'Crie um planejamento financeiro trimestral com cenários', 'Monitore pelo menos 5 indicadores financeiros mensalmente', 'Revise a precificação considerando todos os custos e margem desejada']
-      },
-      high:{
-        title:'Gestão Financeira Estratégica',
-        body:'Ter clareza financeira é um superpoder nos negócios. Você toma decisões baseadas em dados, conhece suas margens e planeja com antecedência — isso coloca sua empresa em posição de aproveitar oportunidades que outras perdem por falta de controle. Continue neste caminho.',
-        actions:['Implemente análise de cohort para entender LTV e retenção', 'Diversifique as fontes de receita para reduzir risco de concentração', 'Estruture um comitê financeiro mensal com sócios', 'Prepare sua empresa para captação ou crédito estratégico, se necessário']
-      }
+      low:{head:'Saúde Financeira em Risco',body:'Sem visibilidade financeira real, toda decisão estratégica é tomada no escuro. Falta de separação PF/PJ e ausência de margens são combinações perigosas.',acts:['Separe imediatamente as finanças pessoais das empresariais','Implemente controle de fluxo de caixa — mesmo em planilha','Calcule a margem real de cada produto ou serviço','Defina pró-labore fixo e pare de retirar valores aleatórios']},
+      mid:{head:'Finanças em Organização',body:'Você tem algum controle, mas as decisões ainda são mais reativas do que planejadas. A empresa pode estar crescendo em receita e encolhendo em lucro.',acts:['Construa um DRE mensal simplificado','Crie planejamento financeiro trimestral com cenários','Monitore pelo menos 5 indicadores financeiros mensalmente','Revise a precificação considerando todos os custos e margem desejada']},
+      high:{head:'Gestão Financeira Estratégica',body:'Ter clareza financeira é um superpoder. Você toma decisões baseadas em dados, conhece suas margens e planeja com antecedência.',acts:['Implemente análise de cohort para entender LTV e retenção','Diversifique fontes de receita para reduzir risco de concentração','Estruture comitê financeiro mensal com sócios','Prepare sua empresa para captação ou crédito estratégico']}
     }
   };
-
-  const tier = low?'low':mid?'mid':'high';
-  const clrMap={low:'#ef4444',mid:'#f59e0b',high:'#10b981'};
-  const bgMap={low:'rgba(239,68,68,.07)',mid:'rgba(245,158,11,.07)',high:'rgba(16,185,129,.07)'};
-  const bdMap={low:'rgba(239,68,68,.3)',mid:'rgba(245,158,11,.3)',high:'rgba(16,185,129,.3)'};
-  const data = map[pillarId][tier];
-  return {...data, color:clrMap[tier], bg:bgMap[tier], border:bdMap[tier]};
+  const d=map[pid][tier];
+  const clr=tier==='low'?'#ef4444':tier==='mid'?'#f59e0b':'#10b981';
+  const bg=tier==='low'?'rgba(239,68,68,.07)':tier==='mid'?'rgba(245,158,11,.07)':'rgba(16,185,129,.07)';
+  const bd=tier==='low'?'rgba(239,68,68,.3)':tier==='mid'?'rgba(245,158,11,.3)':'rgba(16,185,129,.3)';
+  return {...d,clr,bg,bd};
 }
 
 /* ══════════════════════════════════════
-   BUILD REPORT
+   BUILD REPORT — FIX #3 & #8
 ══════════════════════════════════════ */
 function buildReport(){
   const sorted=PILLARS.slice().sort((a,b)=>state.scores[a.id]-state.scores[b.id]);
   const primary=sorted[0], secondary=sorted[1];
 
-  // Header
   document.getElementById('r-name').textContent=`${state.nome} · ${state.empresa} · ${state.cargo} · ${state.setor}`;
   document.getElementById('r-empresa-cta').textContent=state.empresa;
   const badge=document.getElementById('r-badge');
@@ -684,46 +685,40 @@ function buildReport(){
   badge.className='classification-badge '+(state.overall<=4?'badge-red':state.overall<=7?'badge-yellow':'badge-green');
   document.getElementById('r-score').textContent=state.overall.toFixed(1);
 
-  // Bottleneck
   document.getElementById('r-bottleneck').innerHTML=
     `<strong>Seu principal gargalo está em ${primary.icon} ${primary.label} (${state.scores[primary.id]}/10).</strong><br>
      Isso está limitando diretamente sua capacidade de crescer com consistência e previsibilidade.<br><br>
-     <span style="color:var(--muted);font-size:14px">
-     Gargalo secundário identificado: <strong>${secondary.icon} ${secondary.label} (${state.scores[secondary.id]}/10)</strong> — 
-     também exige atenção estratégica. A combinação desses dois pontos cria um efeito multiplicador negativo: 
-     resolver apenas um sem o outro limita o impacto das melhorias.
+     <span style="color:var(--muted);font-size:13px">
+     Gargalo secundário identificado: <strong>${secondary.icon} ${secondary.label} (${state.scores[secondary.id]}/10)</strong> — também exige atenção estratégica.
+     A combinação desses dois pontos cria um efeito multiplicador negativo: resolver apenas um sem o outro limita o impacto das melhorias.
      </span>`;
 
-  // Pillar bars
   document.getElementById('r-pillar-bars').innerHTML=PILLARS.map(p=>{
     const sc=state.scores[p.id];
     const clr=sc>=7.5?'var(--green)':sc>=5?'var(--gold)':'var(--red)';
-    const lbl=sc>=7.5?'Forte':sc>=5?'Médio':'Crítico';
     return `<div class="pillar-row">
       <span class="pillar-name">${p.icon} ${p.label}</span>
       <div class="pillar-track"><div class="pillar-fill" style="width:${sc*10}%;background:${clr}"></div></div>
       <span class="pillar-score" style="color:${clr}">${sc}</span>
-      <span style="font-size:11px;color:${clr};width:44px;text-align:right">${lbl}</span>
+      <span style="font-size:11px;color:${clr};width:44px;text-align:right">${sc>=7.5?'Forte':sc>=5?'Médio':'Crítico'}</span>
     </div>`;
   }).join('');
 
-  // Insights
   document.getElementById('r-insights').innerHTML=PILLARS.map(p=>{
     const sc=state.scores[p.id];
     const ins=getInsight(p.id,sc);
-    return `<div class="insight-card" style="background:${ins.bg};border-color:${ins.border}">
+    return `<div class="insight-card" style="background:${ins.bg};border-color:${ins.bd}">
       <div class="i-header">
         <span class="i-icon">${p.icon}</span>
         <span class="i-title">${p.label}</span>
-        <span class="i-score" style="background:${ins.bg};border:1px solid ${ins.border};color:${ins.color}">${sc}/10</span>
+        <span class="i-score" style="background:${ins.bg};border:1px solid ${ins.bd};color:${ins.clr}">${sc}/10</span>
       </div>
-      <p style="font-weight:600;color:${ins.color};margin-bottom:8px">${ins.title}</p>
+      <div style="font-weight:600;color:${ins.clr};margin-bottom:6px;font-size:13px">${ins.head}</div>
       <p>${ins.body}</p>
-      <ul>${ins.actions.map(a=>`<li>${a}</li>`).join('')}</ul>
+      <ul>${ins.acts.map(a=>`<li>${a}</li>`).join('')}</ul>
     </div>`;
   }).join('');
 
-  // Reflections
   const opens=QUESTIONS.map((q,i)=>({q,i})).filter(x=>x.q.type==='open');
   document.getElementById('r-reflections').innerHTML=opens.map(({q,i})=>{
     const p=PILLARS.find(x=>x.id===q.pillar);
@@ -733,128 +728,149 @@ function buildReport(){
     </div>`;
   }).join('');
 
-  // Radar Chart
-  setTimeout(()=>{
-    const ctx=document.getElementById('radar-chart').getContext('2d');
-    new Chart(ctx,{
-      type:'radar',
-      data:{
-        labels:PILLARS.map(p=>p.label),
-        datasets:[{
-          label:'Score',
-          data:PILLARS.map(p=>state.scores[p.id]),
-          backgroundColor:'rgba(108,99,255,0.2)',
-          borderColor:'rgba(108,99,255,0.9)',
-          pointBackgroundColor:'rgba(167,139,250,1)',
-          pointBorderColor:'#fff',
-          pointHoverBackgroundColor:'#fff',
-          pointHoverBorderColor:'rgba(108,99,255,1)',
-          borderWidth:2,pointRadius:5
-        }]
-      },
-      options:{
-        responsive:true,
-        plugins:{legend:{display:false}},
-        scales:{r:{
-          min:0,max:10,
-          ticks:{color:'#8b8fa8',stepSize:2,backdropColor:'transparent'},
-          grid:{color:'rgba(255,255,255,0.08)'},
-          pointLabels:{color:'#f0f0f5',font:{size:13}}
-        }}
-      }
-    });
-  },200);
+  // FIX #8: Radar chart — aguarda DOM estar pronto
+  requestAnimationFrame(()=>{
+    setTimeout(()=>{
+      const canvas=document.getElementById('radar-chart');
+      if(!canvas) return;
+      // Destrói instância anterior se existir
+      const existing=Chart.getChart(canvas);
+      if(existing) existing.destroy();
+      new Chart(canvas.getContext('2d'),{
+        type:'radar',
+        data:{
+          labels:PILLARS.map(p=>p.label),
+          datasets:[{
+            label:'Score',
+            data:PILLARS.map(p=>state.scores[p.id]),
+            backgroundColor:'rgba(108,99,255,0.2)',
+            borderColor:'rgba(108,99,255,0.9)',
+            pointBackgroundColor:'rgba(167,139,250,1)',
+            pointBorderColor:'#fff',
+            pointHoverBackgroundColor:'#fff',
+            pointHoverBorderColor:'rgba(108,99,255,1)',
+            borderWidth:2,pointRadius:5
+          }]
+        },
+        options:{
+          responsive:true,
+          plugins:{legend:{display:false}},
+          scales:{r:{min:0,max:10,
+            ticks:{color:'#8b8fa8',stepSize:2,backdropColor:'transparent'},
+            grid:{color:'rgba(255,255,255,0.08)'},
+            pointLabels:{color:'#f0f0f5',font:{size:13}}
+          }}
+        }
+      });
+    },150);
+  });
 }
 
 /* ══════════════════════════════════════
    SEND EMAILS — com feedback visual
 ══════════════════════════════════════ */
 async function sendEmails(){
-  const statusEl = document.getElementById('email-status');
-  if(statusEl){
-    statusEl.style.color = 'var(--muted)';
-    statusEl.textContent = '📨 Enviando seu relatório por e-mail...';
-  }
+  const statusEl=document.getElementById('email-status');
+  if(statusEl){statusEl.style.color='var(--muted)';statusEl.textContent='📨 Enviando seu relatório por e-mail...';}
 
-  const sorted = PILLARS.slice().sort((a,b)=>state.scores[a.id]-state.scores[b.id]);
-  const primary   = sorted[0];
-  const secondary = sorted[1];
-
-  const base = {
-    cliente_nome      : state.nome,
-    empresa           : state.empresa,
-    cargo             : state.cargo,
-    setor             : state.setor,
-    score_geral       : state.overall.toFixed(1),
-    classificacao     : state.classification,
-    score_marketing   : state.scores.marketing,
-    score_vendas      : state.scores.vendas,
-    score_pessoas     : state.scores.pessoas,
-    score_processos   : state.scores.processos,
-    score_financas    : state.scores.financas,
-    gargalo_principal : `${primary.label} (${state.scores[primary.id]}/10)`,
-    gargalo_secundario: `${secondary.label} (${state.scores[secondary.id]}/10)`,
-    data_diagnostico  : new Date().toLocaleDateString('pt-BR'),
-    pdf_link          : 'Para baixar seu relatório em PDF, clique no botão "Baixar Relatório em PDF" na página do diagnóstico.'
+  const sorted=PILLARS.slice().sort((a,b)=>state.scores[a.id]-state.scores[b.id]);
+  const base={
+    cliente_nome      :state.nome,
+    empresa           :state.empresa,
+    cargo             :state.cargo,
+    setor             :state.setor,
+    score_geral       :state.overall.toFixed(1),
+    classificacao     :state.classification,
+    score_marketing   :state.scores.marketing,
+    score_vendas      :state.scores.vendas,
+    score_pessoas     :state.scores.pessoas,
+    score_processos   :state.scores.processos,
+    score_financas    :state.scores.financas,
+    gargalo_principal :`${sorted[0].label} (${state.scores[sorted[0].id]}/10)`,
+    gargalo_secundario:`${sorted[1].label} (${state.scores[sorted[1].id]}/10)`,
+    data_diagnostico  :new Date().toLocaleDateString('pt-BR'),
+    pdf_link          :'Para baixar seu relatório em PDF, clique no botão "Baixar Relatório em PDF" na página do diagnóstico.'
   };
 
-  let adminOk = false, clientOk = false;
+  let clientOk=false;
+  try{
+    await emailjs.send(EMAILJS_CFG.serviceId,EMAILJS_CFG.tmplAdmin,{...base,to_email:EMAILJS_CFG.adminEmail,admin_email:EMAILJS_CFG.adminEmail,cliente_email:state.email});
+  }catch(e){console.warn('EmailJS admin:',e);}
+  try{
+    await emailjs.send(EMAILJS_CFG.serviceId,EMAILJS_CFG.tmplClient,{...base,to_email:state.email,cliente_email:state.email});
+    clientOk=true;
+  }catch(e){console.warn('EmailJS client:',e);}
 
-  // E-mail ADMIN
-  try {
-    await emailjs.send(EMAILJS_CFG.serviceId, EMAILJS_CFG.tmplAdmin, {
-      ...base,
-      to_email      : EMAILJS_CFG.adminEmail,
-      admin_email   : EMAILJS_CFG.adminEmail,
-      cliente_email : state.email
-    });
-    adminOk = true;
-  } catch(e){ console.warn('EmailJS admin error:', e); }
-
-  // E-mail CLIENTE
-  try {
-    await emailjs.send(EMAILJS_CFG.serviceId, EMAILJS_CFG.tmplClient, {
-      ...base,
-      to_email      : state.email,
-      cliente_email : state.email
-    });
-    clientOk = true;
-  } catch(e){ console.warn('EmailJS client error:', e); }
-
-  // Feedback visual
   if(statusEl){
-    if(clientOk){
-      statusEl.style.color = 'var(--green)';
-      statusEl.textContent = `✅ Relatório enviado para ${state.email}`;
-    } else {
-      statusEl.style.color = '#f59e0b';
-      statusEl.textContent = '⚠️ Não foi possível enviar o e-mail. Use o botão abaixo para baixar o PDF.';
+    statusEl.style.color=clientOk?'var(--green)':'#f59e0b';
+    statusEl.textContent=clientOk?`✅ Relatório enviado para ${state.email}`:'⚠️ Não foi possível enviar o e-mail. Use o botão abaixo para baixar o PDF.';
+  }
+}
+
+/* ══════════════════════════════════════
+   GOOGLE SHEETS — FIX #1: retry + log
+══════════════════════════════════════ */
+async function saveToSheets(retry=0){
+  const sorted=PILLARS.slice().sort((a,b)=>state.scores[a.id]-state.scores[b.id]);
+  const payload=JSON.stringify({
+    nome:state.nome,empresa:state.empresa,cargo:state.cargo,setor:state.setor,
+    email:state.email,cpf:state.cpf,cnpj:state.cnpj,
+    score_geral:state.overall.toFixed(1),classificacao:state.classification,
+    score_marketing:state.scores.marketing,score_vendas:state.scores.vendas,
+    score_pessoas:state.scores.pessoas,score_processos:state.scores.processos,
+    score_financas:state.scores.financas,
+    gargalo_principal:`${sorted[0].label} (${state.scores[sorted[0].id]}/10)`,
+    gargalo_secundario:`${sorted[1].label} (${state.scores[sorted[1].id]}/10)`
+  });
+  try{
+    await fetch(SHEETS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:payload});
+  }catch(e){
+    console.warn(`Sheets error (tentativa ${retry+1}):`,e);
+    // FIX #1: retry automático até 2 vezes com delay
+    if(retry<2) setTimeout(()=>saveToSheets(retry+1),3000);
+    else{
+      // Fallback: salva payload localmente para não perder dados
+      try{
+        const pending=JSON.parse(localStorage.getItem('diag360_pending')||'[]');
+        pending.push({payload,ts:new Date().toISOString()});
+        localStorage.setItem('diag360_pending',JSON.stringify(pending));
+      }catch(le){}
     }
   }
 }
 
 /* ══════════════════════════════════════
-   CTA
+   CTA — WhatsApp
 ══════════════════════════════════════ */
 function applyCTA(){
-  alert(`Perfeito, ${state.nome}! Nossa equipe entrará em contato pelo e-mail ${state.email} em breve para agendar sua sessão estratégica personalizada para ${state.empresa}.`);
+  const msg=`Olá, acabei de finalizar o Diagnóstico Empresarial 360°.
+  
+Nome: ${state.nome}
+Empresa: ${state.empresa}
+Score Geral: ${state.overall}
+
+Quero transformar meu diagnóstico em plano de ação com um especialista.`;
+  window.open('https://wa.me/5571993373795?text='+encodeURIComponent(msg),'_blank');
 }
 
 /* ══════════════════════════════════════
-   PDF DOWNLOAD — compatível com popup blocker
+   PDF DOWNLOAD — FIX #8: radar no PDF
 ══════════════════════════════════════ */
 function downloadPDF(){
-  const btn = document.getElementById('btn-pdf');
-  const msg = document.getElementById('pdf-msg');
+  const btn=document.getElementById('btn-pdf');
+  const msg=document.getElementById('pdf-msg');
+  if(btn){btn.disabled=true;btn.innerHTML='⏳ Gerando PDF...';}
 
-  // Feedback imediato no botão
-  if(btn){ btn.disabled=true; btn.textContent='⏳ Gerando PDF...'; }
+  // FIX #8: captura o radar como imagem antes de gerar o PDF
+  const canvas=document.getElementById('radar-chart');
+  let radarImg='';
+  try{ radarImg=canvas?canvas.toDataURL('image/png'):''; }catch(e){}
 
-  const reportHTML = document.getElementById('s-report').innerHTML;
-  const styles = `
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+  const reportHTML=document.getElementById('s-report').innerHTML;
+
+  const styles=`
     *{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:'Inter','Segoe UI',sans-serif;background:#fff;color:#111;font-size:13px;line-height:1.6;padding:28px;}
+    body{font-family:'Segoe UI',sans-serif;background:#fff;color:#111;font-size:13px;line-height:1.6;padding:28px;}
     .report-wrap{max-width:720px;margin:0 auto;}
     .report-header{text-align:center;margin-bottom:28px;}
     .report-name{font-size:12px;color:#666;margin-bottom:8px;}
@@ -889,33 +905,36 @@ function downloadPDF(){
     .disclaimer-block{background:#fffbeb;border:1px solid #fcd34d;border-radius:10px;padding:20px;margin-bottom:16px;}
     .disclaimer-block h4{color:#d97706;font-size:13px;margin-bottom:8px;}
     .disclaimer-block p{font-size:12px;color:#555;line-height:1.7;}
-    .cta-block,.btn-gold,.btn-pdf,.chart-wrap,#email-status,#pdf-msg{display:none!important;}
-    .divider{display:none;}
+    .chart-wrap canvas{display:none;}
+    .radar-pdf{width:300px;height:300px;display:block;margin:0 auto;}
+    .cta-block,.btn-gold,.btn-pdf,#email-status,#pdf-msg,.divider{display:none!important;}
     @page{margin:16mm;size:A4;}
   `;
 
-  // Cria blob e link de download — não depende de popup
-  const fullHtml = `<!DOCTYPE html><html><head>
-    <meta charset="UTF-8"/>
+  // Injeta imagem do radar no lugar do canvas
+  const htmlWithRadar = reportHTML.replace(
+    /<div class="chart-wrap">[\s\S]*?<\/div>/,
+    radarImg ? `<div class="chart-wrap"><img class="radar-pdf" src="${radarImg}" alt="Radar 360°"/></div>` : '<div class="chart-wrap"></div>'
+  );
+
+  const fullHtml=`<!DOCTYPE html><html><head><meta charset="UTF-8"/>
     <title>Diagnóstico 360° — ${state.empresa}</title>
     <style>${styles}</style>
-  </head><body>${reportHTML}</body></html>`;
+  </head><body>${htmlWithRadar}</body></html>`;
 
-  const blob = new Blob([fullHtml], {type:'text/html'});
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href     = url;
-  a.download = `Diagnostico360-${state.empresa.replace(/\s+/g,'-')}.html`;
+  const blob=new Blob([fullHtml],{type:'text/html'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=`Diagnostico360-${state.empresa.replace(/\s+/g,'-')}.html`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
-  setTimeout(()=>URL.revokeObjectURL(url), 3000);
+  setTimeout(()=>URL.revokeObjectURL(url),3000);
 
-  // Restaura botão e mostra instrução
-  if(btn){ btn.disabled=false; btn.innerHTML='<span>⬇️</span> Baixar Relatório em PDF'; }
+  if(btn){btn.disabled=false;btn.innerHTML='<span>⬇️</span> Baixar Relatório em PDF';}
   if(msg){
     msg.style.display='block';
-    msg.style.color='var(--green)';
     msg.innerHTML='✅ Arquivo baixado! Abra-o no navegador e use <strong>Ctrl+P → Salvar como PDF</strong>.';
   }
 }
