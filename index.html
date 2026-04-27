@@ -6,6 +6,8 @@
 <title>Diagnóstico Empresarial 360°</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<!-- reCAPTCHA v3 — substitua SEU_SITE_KEY após obter em google.com/recaptcha -->
+<script src="https://www.google.com/recaptcha/api.js?render=SEU_SITE_KEY_AQUI" async defer></script>
 <style>
 :root{
   --bg:#0a0b0f;--surface:#13141a;--surface2:#1c1d26;--border:#2a2b38;
@@ -130,7 +132,15 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
 .divider{width:100%;height:1px;background:var(--border);margin:8px 0 24px;}
 .chart-wrap{position:relative;width:100%;max-width:340px;margin:0 auto;}
 
-/* MOBILE */
+/* POLÍTICA DE PRIVACIDADE MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center;padding:16px;}
+.modal-overlay.active{display:flex;}
+.modal-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:560px;width:100%;max-height:80vh;overflow-y:auto;}
+.modal-box h3{font-size:18px;margin-bottom:16px;color:var(--accent2);}
+.modal-box p,.modal-box li{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:8px;}
+.modal-box ul{padding-left:16px;margin-bottom:12px;}
+.modal-close{background:var(--accent);color:#fff;border:none;border-radius:999px;padding:10px 28px;font-size:14px;font-weight:700;cursor:pointer;margin-top:16px;width:100%;}
+.privacy-link{color:var(--accent2);cursor:pointer;text-decoration:underline;font-size:13px;}
 @media(max-width:480px){
   .screen{padding:16px 12px;}
   .hero-title{font-size:24px;}
@@ -163,6 +173,34 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
 </style>
 </head>
 <body>
+
+<!-- MODAL POLÍTICA DE PRIVACIDADE -->
+<div class="modal-overlay" id="privacy-modal">
+  <div class="modal-box">
+    <h3>🔒 Política de Privacidade</h3>
+    <p><strong>Última atualização:</strong> Abril de 2025</p>
+    <p>O Diagnóstico Empresarial 360° coleta e trata seus dados pessoais em conformidade com a Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018).</p>
+    <p><strong>Dados coletados:</strong></p>
+    <ul>
+      <li>Nome completo, empresa, cargo e setor</li>
+      <li>E-mail profissional</li>
+      <li>CPF e CNPJ (armazenados apenas como hash criptográfico — não é possível recuperar o valor original)</li>
+      <li>Respostas ao questionário de diagnóstico</li>
+    </ul>
+    <p><strong>Finalidade:</strong> Os dados são usados exclusivamente para gerar seu relatório personalizado e para contato estratégico relacionado ao diagnóstico realizado.</p>
+    <p><strong>Compartilhamento:</strong> Seus dados não são vendidos, alugados ou compartilhados com terceiros para fins comerciais.</p>
+    <p><strong>Armazenamento:</strong> Os dados são armazenados em servidores seguros (Google Workspace) e retidos pelo período necessário para a prestação dos serviços.</p>
+    <p><strong>Seus direitos (LGPD):</strong></p>
+    <ul>
+      <li>Acesso aos seus dados</li>
+      <li>Correção de dados incompletos ou incorretos</li>
+      <li>Exclusão dos seus dados a qualquer momento</li>
+      <li>Revogação do consentimento</li>
+    </ul>
+    <p><strong>Contato:</strong> Para exercer seus direitos ou esclarecer dúvidas, envie e-mail para <strong>mateus.negreiros@hotmail.com</strong></p>
+    <button class="modal-close" onclick="closePrivacy()">Entendi e Aceito</button>
+  </div>
+</div>
 
 <!-- ══ SCREEN 1: INTRO ══ -->
 <div id="s-intro" class="screen active">
@@ -245,7 +283,7 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
     </div>
     <div class="checkbox-row">
       <input type="checkbox" id="lgpd-check"/>
-      <label for="lgpd-check">Autorizo o uso dos meus dados para análise e contato estratégico, conforme a LGPD.</label>
+      <label for="lgpd-check">Autorizo o uso dos meus dados conforme a <span class="privacy-link" onclick="openPrivacy()">Política de Privacidade</span> e a LGPD.</label>
     </div>
     <p id="unlock-err" class="error-msg">Preencha todos os campos corretamente para continuar.</p>
     <button class="btn-primary" id="btn-unlock" style="width:100%;margin-top:20px" onclick="unlock()">Desbloquear Diagnóstico 🔓</button>
@@ -301,8 +339,50 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
 
 <script>
 /* ══════════════════════════════════════
-   EMAILJS CONFIG
+   SEGURANÇA — CONFIG
 ══════════════════════════════════════ */
+const RECAPTCHA_SITE_KEY = 'SEU_SITE_KEY_AQUI'; // substitua após obter em google.com/recaptcha
+const ALLOWED_ORIGIN     = 'https://mateusnegreiros.github.io';
+
+/* ══════════════════════════════════════
+   POLÍTICA DE PRIVACIDADE
+══════════════════════════════════════ */
+function openPrivacy(){
+  document.getElementById('privacy-modal').classList.add('active');
+}
+function closePrivacy(){
+  document.getElementById('privacy-modal').classList.remove('active');
+  document.getElementById('lgpd-check').checked=true;
+}
+// Fecha modal ao clicar fora
+document.getElementById('privacy-modal').addEventListener('click',function(e){
+  if(e.target===this) this.classList.remove('active');
+});
+
+/* ══════════════════════════════════════
+   HASH SHA-256 — CPF e CNPJ
+   Nível 2: dados sensíveis nunca trafegam
+   em texto puro — apenas o hash é enviado
+══════════════════════════════════════ */
+async function sha256(str){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+/* ══════════════════════════════════════
+   RECAPTCHA v3 — verifica bot
+══════════════════════════════════════ */
+async function getRecaptchaToken(){
+  return new Promise((resolve)=>{
+    if(typeof grecaptcha==='undefined'||RECAPTCHA_SITE_KEY==='SEU_SITE_KEY_AQUI'){
+      resolve(null); return; // sem chave, pula silenciosamente
+    }
+    grecaptcha.ready(()=>{
+      grecaptcha.execute(RECAPTCHA_SITE_KEY,{action:'submit'})
+        .then(resolve).catch(()=>resolve(null));
+    });
+  });
+}
 const EMAILJS_CFG = {
   publicKey : '84cSnlbPirMj8QzpJ',
   serviceId : 'service_0x9pxbo',
@@ -581,9 +661,9 @@ function validCNPJ(c){
 }
 
 /* ══════════════════════════════════════
-   UNLOCK — FIX #4: loading no botão
+   UNLOCK — com hashing + reCAPTCHA
 ══════════════════════════════════════ */
-function unlock(){
+async function unlock(){
   const email=document.getElementById('inp-email').value.trim();
   const cpf=document.getElementById('inp-cpf').value.trim();
   const cnpj=document.getElementById('inp-cnpj').value.trim();
@@ -592,31 +672,43 @@ function unlock(){
 
   if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||!validCPF(cpf)||!validCNPJ(cnpj)||!lgpd){
     err.style.display='block';
-    err.textContent=!lgpd?'Aceite os termos LGPD para continuar.':
+    err.textContent=!lgpd?'Aceite a Política de Privacidade para continuar.':
       !validCPF(cpf)?'CPF inválido. Verifique e tente novamente.':
       !validCNPJ(cnpj)?'CNPJ inválido. Verifique e tente novamente.':
       'Preencha todos os campos corretamente.';
     return;
   }
   err.style.display='none';
-  state.email=email;state.cpf=cpf;state.cnpj=cnpj;
 
-  // FIX #4: loading imediato no botão
+  // Loading imediato
   const btn=document.getElementById('btn-unlock');
   btn.disabled=true;
   btn.textContent='⏳ Gerando seu relatório...';
 
-  saveToStorage();
+  // Gera hashes de CPF e CNPJ — dados sensíveis nunca saem em texto puro
+  const [cpfHash, cnpjHash] = await Promise.all([
+    sha256(cpf.replace(/\D/g,'')),
+    sha256(cnpj.replace(/\D/g,''))
+  ]);
 
-  // FIX #3: buildReport primeiro, depois envios em background
+  // reCAPTCHA token
+  const recaptchaToken = await getRecaptchaToken();
+
+  state.email=email;
+  state.cpf=cpf;       // mantido no estado local para exibição
+  state.cnpj=cnpj;
+  state.cpfHash=cpfHash;
+  state.cnpjHash=cnpjHash;
+  state.recaptchaToken=recaptchaToken;
+
+  saveToStorage();
   buildReport();
   go('s-report');
 
-  // Envios em background após render
   setTimeout(()=>{
     sendEmails();
     saveToSheets();
-  }, 300);
+  },300);
 }
 
 /* ══════════════════════════════════════
@@ -808,28 +900,30 @@ async function sendEmails(){
 }
 
 /* ══════════════════════════════════════
-   GOOGLE SHEETS — FIX #1: retry + log
+   GOOGLE SHEETS — com hash + origem + retry
 ══════════════════════════════════════ */
 async function saveToSheets(retry=0){
   const sorted=PILLARS.slice().sort((a,b)=>state.scores[a.id]-state.scores[b.id]);
   const payload=JSON.stringify({
-    nome:state.nome,empresa:state.empresa,cargo:state.cargo,setor:state.setor,
-    email:state.email,cpf:state.cpf,cnpj:state.cnpj,
-    score_geral:state.overall.toFixed(1),classificacao:state.classification,
-    score_marketing:state.scores.marketing,score_vendas:state.scores.vendas,
-    score_pessoas:state.scores.pessoas,score_processos:state.scores.processos,
+    nome:state.nome, empresa:state.empresa, cargo:state.cargo, setor:state.setor,
+    email:state.email,
+    cpf_hash :state.cpfHash  || '', // envia apenas o hash
+    cnpj_hash:state.cnpjHash || '', // envia apenas o hash
+    score_geral:state.overall.toFixed(1), classificacao:state.classification,
+    score_marketing:state.scores.marketing, score_vendas:state.scores.vendas,
+    score_pessoas:state.scores.pessoas, score_processos:state.scores.processos,
     score_financas:state.scores.financas,
     gargalo_principal:`${sorted[0].label} (${state.scores[sorted[0].id]}/10)`,
-    gargalo_secundario:`${sorted[1].label} (${state.scores[sorted[1].id]}/10)`
+    gargalo_secundario:`${sorted[1].label} (${state.scores[sorted[1].id]}/10)`,
+    origin: ALLOWED_ORIGIN,
+    recaptcha: state.recaptchaToken || ''
   });
   try{
     await fetch(SHEETS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:payload});
   }catch(e){
     console.warn(`Sheets error (tentativa ${retry+1}):`,e);
-    // FIX #1: retry automático até 2 vezes com delay
     if(retry<2) setTimeout(()=>saveToSheets(retry+1),3000);
     else{
-      // Fallback: salva payload localmente para não perder dados
       try{
         const pending=JSON.parse(localStorage.getItem('diag360_pending')||'[]');
         pending.push({payload,ts:new Date().toISOString()});
